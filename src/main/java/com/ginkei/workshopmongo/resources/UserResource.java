@@ -6,10 +6,10 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ginkei.workshopmongo.domain.User;
 import com.ginkei.workshopmongo.dto.UserDTO;
 import com.ginkei.workshopmongo.services.UserService;
 
@@ -25,6 +25,13 @@ public class UserResource {
 		var list = service.findAll();
 		var listDTO = list.stream().map(user -> new UserDTO(user)).collect(Collectors.toList());
 		return ResponseEntity.ok(listDTO);
+	}
+	
+	@GetMapping(value = "/{id}")
+	public ResponseEntity<UserDTO> findById(@PathVariable String id){
+		var user = service.findById(id);
+		var userDTO = new UserDTO(user);
+		return ResponseEntity.ok(userDTO);
 	}
 	
 
